@@ -29,9 +29,19 @@ Operator Precedence determines the order of when operators in the expression are
 // A variable in computer programming is like a placeholder for something like data. It could hold different data types like ints, doubles, Strings, etc
 // A scope lets a certain variables access the data. It creates that the variables can and can't access.
 
+// Inheritance is when you can take a class and make a subclass out of it. The benefits of using inheritance is that if you want to create multiple classes with similar methods and variables.
+// Inheritance allows you to create subclasses which inheritance everything the original(Parent/Super class). You can also override methods from the superclass.
+
+//Polymorphism is something that you create to store base class types can also store derived types. Basically polymorphism means having many forms. It occurs when a superclass reference is used to refer to a subclass' object. 
+
+
+
 package integrationpackage;
+import java.io.*;
 import java.util.Scanner;
+import java.util.*; 
 import java.lang.Math;
+import java.util.InputMismatchException;
 import java.util.Random;
 
 
@@ -39,20 +49,21 @@ import java.util.Random;
 public class Main {
 	
 	
-	public static int RandIntGenerator(int num) { //This is the header of the method. The "int num" inside of the RandIntGenerator is the parameter that the argument is passed to.
-		Random RandIntGen = new Random();
-		int RandNumGenerated = RandIntGen.nextInt(num) + 1;
-		return RandNumGenerated;
-	}
-
 
 //-------------------------------------------------------------------------------------------------------------------------------------------	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Enter Name");
 		String getName = scan.nextLine();
+		System.out.println("Enter Month");
+		String getMonth = scan.nextLine();
+		System.out.println("Enter Day");
+		String getDay = scan.nextLine();
+		System.out.println("Enter Year");
+		String getYear = scan.nextLine();
+		NameGetterAndSetter testTrial1 = new NameGetterAndSetter(getName, getMonth, getDay, getYear );
 		System.out.println("Yo!" + getName  + "." + " Welcome to the beginning of my project.");
 		System.out.println("This is a project for \"COP 2600\".");
 		
@@ -63,7 +74,7 @@ public class Main {
 			System.out.print("2.) Dice Roller Stuff.\n");
 			System.out.print("3.) operators (+, -, * , etc). \n");
 			System.out.print("4.) compareTo demonstration. \n");
-			System.out.print("5.) Blank. \n");
+			System.out.print("5.) ArrayList and Array Accumulator. \n");
 			System.out.print("6.) Terminate program");
 			menuChoice = scan.nextInt();
 			
@@ -87,73 +98,134 @@ public class Main {
 //-------------------------------------------------------------------------------------------------------------------------------------------
 				
 			case 2: //Random Class
-				int c2MenuChoice;
-				System.out.println("Choose an option.");
-				System.out.println("1.) Singular d20(twenty sided) dice roll");
-				System.out.println("2.) Singular d6(six sided) dice roll");
-				System.out.println("3.) For Loop d20 rolls \n4.) While Loop d20 Roll");
-				System.out.println("5.) Three d20 rolls");
-				c2MenuChoice = scan.nextInt();
-				if(c2MenuChoice == 1) {
-					int randNum = RandIntGenerator(20); //RandIntGenerator() is the method call and the 20 inside it is the argument being passed to the method.
-					System.out.println("Rolled: " + randNum);
-					String CHMessage = (randNum == 20) || (randNum == 1) ? "Critical Hit" : "No Critical Hit";
-					System.out.println(CHMessage);
-					break;
+				
+				boolean continueProgramc2 = true;
+				while(continueProgramc2){
+					System.out.println("Choose an option.");
+					System.out.println("1.) Singular d20(twenty sided) dice roll");
+					System.out.println("2.) Singular d6(six sided) dice roll");
+					System.out.println("3.) For Loop d20 rolls \n4.) While Loop d20 Roll");
+					System.out.println("5.) Three d20 rolls");
+					System.out.println("6.) Damage Dices");
+					System.out.println("To Exit Program, input any number but the choices");
 					
-				}
-				
-				else if(c2MenuChoice == 2){
-					int randNum = RandIntGenerator(6);
-					System.out.println("Rolled: " + randNum);
-					break;
-				}
-				
-				else if(c2MenuChoice == 3) {
-					System.out.println("Input the amount of times you want to roll");
-					int GetAmountRolling = scan.nextInt();
-					
-					for(int rolling = 0 ; rolling<GetAmountRolling ; rolling++) {
-						int randNum = RandIntGenerator(20);
-						System.out.println("Rolled:" + randNum);	
-					
-					}
-					break;
-				
-				}
-				
-				else if(c2MenuChoice == 4) {
-					boolean continueProgram = true;
-					while(continueProgram) {
-						Scanner c2dScan = new Scanner(System.in);
-						int UserInput = c2dScan.nextInt();
-						int rolledInt = RandIntGenerator(UserInput);
-						if (UserInput ==  1) {
-							continueProgram = false;
+					try {
+						int c2MenuChoice = scan.nextInt();
+						if(c2MenuChoice == 1) {
+							RandomIntGenerator d20SingleRoll = new RandomIntGenerator(20);
+							//RandIntGenerator() is the method call and the 20 inside it is the argument being passed to the method.
+							int randNum = d20SingleRoll.getRollingAmount();
+							System.out.println("Rolled: " + randNum);
+							String CHMessage = (randNum == 20) || (randNum == 1) ? "Critical Hit" : "No Critical Hit";
+							System.out.println(CHMessage);
+							//break;
+							
 						}
+						
+						else if(c2MenuChoice == 2){
+							RandomIntGenerator d6SingleRoll = new RandomIntGenerator(6);
+							System.out.println("Rolled: " + d6SingleRoll.getRollingAmount());
+							//break;
+						}
+						
+						else if(c2MenuChoice == 3) {
+							
+							System.out.println("Input the amount of times you want to roll");
+							int getAmountRolling = scan.nextInt();
+							
+							int[] randArrayc23 = new int[getAmountRolling];
+							for(int rolling = 0 ; rolling<getAmountRolling ; rolling++) {
+								randArrayc23[rolling] = RandomIntGenerator.randGenerator(20);
+								System.out.println("Rolled: " + randArrayc23[rolling]);	
+								
+							int smallestValue = randArrayc23[0];
+						    int smallestValueIndex = 0;
+						    
+						    for(int i = 0; i < getAmountRolling; i++) {
+						    	if(randArrayc23[i] <= smallestValue){
+					                smallestValue = randArrayc23[i];
+					                smallestValueIndex = i + 1;
+						    	
+						    	}
+							//Array For Loop
+							}
+						    System.out.println("Smallest Value:" +  smallestValue);
+						    System.out.println("Index: " + smallestValueIndex);
+							//break;
+						
+							}
+
+						}
+						else if(c2MenuChoice == 4) {
+							boolean continueProgram = true;
+							while(continueProgram) {
+								System.out.println("Please input an integer");
+								System.out.println("If you want to leave this part of the program, input anything else");
+								int UserInput = scan.nextInt();
+								int rolled = RandomIntGenerator.randGenerator(20);
+								if (UserInput ==  1) {
+									continueProgram = false;
+								}
+								else {
+									System.out.println("Rolled: " + rolled);
+								}
+								
+			
+							}
+							//break;
+						}
+						
+						else if(c2MenuChoice ==5) {
+							int continueProgram = 1;
+							while(continueProgram <= 3) {
+								int tripleRoll = RandomIntGenerator.randGenerator(20);
+								System.out.println("Rolled: " + tripleRoll);
+								continueProgram += 1;
+								
+							}
+							//break;
+						}
+						else if(c2MenuChoice ==6) {
+							System.out.println("Input the amount of times you want to attack");
+							int size = scan.nextInt();
+							int damageArray[] = new int[size];
+							int sum = 0;
+							for(int i = 0; i < size; i++) {
+								System.out.println("Input damage dice");
+								int damageDice = scan.nextInt();
+								damageArray[size] =  RandomIntGenerator.randGenerator(damageDice);
+								System.out.println("Rolled: " + damageArray[i]);
+								
+								
+							for(int adder : damageArray) {
+								sum += adder;
+							}
+							System.out.println(sum);
+								
+								
+							}
+						}
+						
+						//Array. Finding the highest and lowest number rolled. Not sure whether i should use the Hackerrank.
+						
+						
 						else {
-							System.out.println("Rolled: " + rolledInt);
+							break;
 						}
 						
-	
+					}catch(Exception e) {
+						System.out.println("Enter an option \n Enter any number to continue");
+						//System.out.println("Choose an option.");
+						//System.out.println("1.) Singular d20(twenty sided) dice roll");
+						//System.out.println("2.) Singular d6(six sided) dice roll");
+						//System.out.println("3.) For Loop d20 rolls \n4.) While Loop d20 Roll");
+						//System.out.println("5.) Three d20 rolls");
+						//System.out.println("To Exit Program, input any number but the choices");
+						scan.next();
 					}
-					break;
 				}
-				
-				else if(c2MenuChoice ==5) {
-					int continueProgram = 1;
-					while(continueProgram <= 3) {
-						int rolledInt = RandIntGenerator(20);
-						System.out.println("Rolled: " + rolledInt);
-						continueProgram += 1;
-						
-					}
-					break;
-				}
-				else {
-					break;
-				}
-				
+				break;
+					                  
 //-------------------------------------------------------------------------------------------------------------------------------------------
 				
 			case 3: //Operators
@@ -250,35 +322,30 @@ public class Main {
 				
 			case 4: //CompareTo
 				
-				String strVar1 = "";
-				String strVar2 = "";
-				
-				Scanner c4Input1 = new Scanner(System.in);
-				System.out.println("Input a word");
-				strVar1 = c4Input1.nextLine();
-				
-				Scanner c4Input2 = new Scanner(System.in);
-				System.out.println("Input another word");
-				strVar2 = c4Input2.nextLine();
-				
-				int resultOfCompare = strVar1.compareTo(strVar2);
-				if(resultOfCompare>1) {
-					System.out.println("The second string is lexicographically first");
-					
-				}
-				else if(resultOfCompare == 0) {
-					System.out.println("The two strings are lexicographically equivalent");
-					
-				}
-				else {
-					System.out.println("The first string is lexicographically first");
-					
-				}
+				pairToFunction(scan);
 				//The == operator basically compares the two strings to see if they're equal or the same as. 
 				
 //-------------------------------------------------------------------------------------------------------------------------------------------				
 	
 			case 5:
+				ArrayList<String> sound = new ArrayList<String>();
+			    sound.add("Bingo");
+			    sound.add("Bango");
+			    sound.add("Bongo");
+			    sound.add(".");
+			    System.out.println(sound);
+			    
+			    int[] numbers = {5, 55, 4, 6, 7, 8};
+			    int numbersTotal = 0;
+			    for (int number: numbers) {
+			    	System.out.println(number);
+			    	numbersTotal += number;
+			    }
+			    System.out.println("The sum of the elements in the array is: " + numbersTotal);
+			    
+			    
+			    
+			    
 				break;
 				
 //-------------------------------------------------------------------------------------------------------------------------------------------
@@ -293,9 +360,34 @@ public class Main {
 //-------------------------------------------------------------------------------------------------------------------------------------------
 			
 		}while (menuChoice != 6); 
+		System.out.println("Terminating");
+
+
+	}
+
+	public static void pairToFunction(Scanner scan) {
+		String strVar1;
+		String strVar2;
 		
-
-
+		System.out.println("Input a word");
+		strVar1 = scan.nextLine();
+		
+		System.out.println("Input another word");
+		strVar2 = scan.nextLine();
+		
+		int resultOfCompare = strVar1.compareTo(strVar2);
+		if(resultOfCompare>1) {
+			System.out.println("The second string is lexicographically first");
+			
+		}
+		else if(resultOfCompare == 0) {
+			System.out.println("The two strings are lexicographically equivalent");
+			
+		}
+		else {
+			System.out.println("The first string is lexicographically first");
+			
+		}
 	}
 
 }
